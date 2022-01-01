@@ -8,7 +8,7 @@
   </head>
   <body>
     <article class="">
-    
+
         <?= $post ?>
 
     </article>
