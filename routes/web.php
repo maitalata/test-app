@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,24 @@ Route::get('/', function () {
     //return ['name' => 'Umar Sunusi Maitalata', 'profession' => 'Software Developer', 'Phone Number' => '+2348098069816', 'email' => 'maitalata@gmail.com', ['Language 1' => 'php', 'Language 2' => 'Java']];
     //$posts = Post::all();
 
-    return view('posts', [
-      'posts' => Post::all()
-    ]);
+    // return view('posts', [
+    //   'posts' => Post::all()
+    // ]);
+
+    $files = File::files(resource_path("posts/"));
+
+    $documents = [];
+
+    foreach($files as $file){
+      $documents[] = YamlFrontMatter::parseFile($file);
+    }
+
+    // $document = YamlFrontMatter::parseFile(
+    //   resource_path("posts/my-fourth-post.html")
+    // );
+
+    ddd($documents);
+
 });
 
 Route::get('posts/{post}', function ($slug) {
