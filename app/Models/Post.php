@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\File;
 
 class Post
 {
+    public $title;
+    public $excerpt;
+    public $date;
+    public $body;
+
+
   public static function all()
   {
     $files = File::files(resource_path("posts/"));
