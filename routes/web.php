@@ -29,15 +29,20 @@ Route::get('/', function () {
     $posts = [];
 
     foreach($files as $file){
-      $documents = YamlFrontMatter::parseFile($file);
-
+      $document = YamlFrontMatter::parseFile($file);
+      $posts[] = new Post(
+        $document->title,
+        $document->excerpt,
+        $document->date,
+        $document->body(),
+      );
      }
 
     // $document = YamlFrontMatter::parseFile(
     //   resource_path("posts/my-fourth-post.html")
     // );
 
-    ddd($documents);
+    ddd($posts);
 
 });
 
