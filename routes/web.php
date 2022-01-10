@@ -26,19 +26,7 @@ Route::get('/', function () {
 
    // $files = File::files(resource_path('posts/'));
 
-    $posts = collect(File::files(resource_path('posts/')))
-        ->map(function ($file){
-            return YamlFrontMatter::parseFile($file);
-        })
-        ->map(function ($document){
-        return new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug
-       );
-    });
+   // $posts = Post::all();
 
     // $posts = array_map(function ($file) {
     //     $document = YamlFrontMatter::parseFile($file);
@@ -58,7 +46,7 @@ Route::get('/', function () {
     //ddd($posts[0]->excerpt);
 
     return view('posts', [
-        'posts' => $posts,
+        'posts' => Post::all(),
     ]);
 });
 
