@@ -11,13 +11,15 @@ class Post
     public $excerpt;
     public $date;
     public $body;
+    public $slug;
 
-    public function __construct($title, $exerpt, $date, $body)
+    public function __construct($title, $exerpt, $date, $body, $slug)
     {
         $this->title = $title;
         $this->excerpt = $exerpt;
         $this->date = $date;
         $this->body = $body;
+        $this->slug = $slug;
     }
 
 

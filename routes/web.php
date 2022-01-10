@@ -24,34 +24,50 @@ Route::get('/', function () {
     //   'posts'    => Post::all()
     // ]);
 
-    $files = File::files(resource_path("posts/"));
+   // $files = File::files(resource_path('posts/'));
 
-    $posts = [];
+    $posts = collect(File::files(resource_path('posts/')))
+        ->map(function ($file){
+            return YamlFrontMatter::parseFile($file);
+        })
+        ->map(function ($document){
+        return new Post(
+            $document->title,
+            $document->excerpt,
+            $document->date,
+            $document->body(),
+            $document->slug
+       );
+    });
 
-    foreach($files as $file){
-      $document = YamlFrontMatter::parseFile($file);
-      $posts[] = new Post(
-        $document->title,
-        $document->excerpt,
-        $document->date,
-        $document->body(),
-      );
-     }
+    // $posts = array_map(function ($file) {
+    //     $document = YamlFrontMatter::parseFile($file);
+    //     return new Post(
+    //         $document->title,
+    //         $document->excerpt,
+    //         $document->date,
+    //         $document->body(),
+    //         $document->slug
+    //     );
+    // }, $files);
 
     // $document = YamlFrontMatter::parseFile(
     //   resource_path("posts/my-fourth-post.html")
     // );
 
-    ddd($posts);
+    //ddd($posts[0]->excerpt);
 
+    return view('posts', [
+        'posts' => $posts,
+    ]);
 });
 
 Route::get('posts/{post}', function ($slug) {
     // find a post by its slug and pass it to a view called "post"
     //$post = Post::find($slug);
 
-    return view('post',[
-      'post' => Post::find($slug)
+    return view('post', [
+        'post' => Post::find($slug),
     ]);
 
     // $path = __DIR__ . "/../resources/posts/{$slug}.html";
@@ -71,4 +87,4 @@ Route::get('posts/{post}', function ($slug) {
     // return view('post',[
     //   'post' => $post
     // ]);
-})->where('post','[A-z_\-]+');
+})->where('post', '[A-z_\-]+');
