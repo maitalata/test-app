@@ -50,12 +50,12 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post}', function ($id) {
     // find a post by its slug and pass it to a view called "post"
     //$post = Post::find($slug);
 
     return view('post', [
-        'post' => Post::find($slug),
+        'post' => Post::findorFail($id),
     ]);
 
     // $path = __DIR__ . "/../resources/posts/{$slug}.html";
@@ -75,4 +75,4 @@ Route::get('posts/{post}', function ($slug) {
     // return view('post',[
     //   'post' => $post
     // ]);
-})->where('post', '[A-z_\-]+');
+});

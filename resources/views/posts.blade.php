@@ -9,7 +9,7 @@
     @foreach($posts as $post)
       <article class="">
         <h1>
-            <a href="/posts/{{$post->slug}}">
+            <a href="/posts/{{$post->id}}">
                 <!-- <?= $post->title ?> -->
                 {{$post->title}}
             </a>
