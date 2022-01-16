@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -17,62 +18,20 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', function () {
-    //return ['name' => 'Umar Sunusi Maitalata', 'profession' => 'Software Developer', 'Phone Number' => '+2348098069816', 'email' => 'maitalata@gmail.com', ['Language 1' => 'php', 'Language 2' => 'Java']];
-    //$posts = Post::all();
-
-    // return view('posts', [
-    //   'posts'    => Post::all()
-    // ]);
-
-   // $files = File::files(resource_path('posts/'));
-
-   // $posts = Post::all();
-
-    // $posts = array_map(function ($file) {
-    //     $document = YamlFrontMatter::parseFile($file);
-    //     return new Post(
-    //         $document->title,
-    //         $document->excerpt,
-    //         $document->date,
-    //         $document->body(),
-    //         $document->slug
-    //     );
-    // }, $files);
-
-    // $document = YamlFrontMatter::parseFile(
-    //   resource_path("posts/my-fourth-post.html")
-    // );
-
-    //ddd($posts[0]->excerpt);
-
     return view('posts', [
-        'posts' => Post::all(),
+        'posts' => Post::all()
     ]);
 });
 
-Route::get('posts/{post}', function ($id) {
-    // find a post by its slug and pass it to a view called "post"
-    //$post = Post::find($slug);
-
+Route::get('posts/{post:slug}', function (Post $post) {
     return view('post', [
-        'post' => Post::findorFail($id),
+        'post' => $post
     ]);
-
-    // $path = __DIR__ . "/../resources/posts/{$slug}.html";
-    //
-    // //ddd($path);
-    //
-    // if(!file_exists($path)){
-    //   return redirect('/');
-    //   //abort(404);
-    // }
-    //
-    // $post = cache()->remember("post.{$slug}", 5, function() use ($path){
-    //
-    //   return file_get_contents($path);
-    // });
-    //
-    // return view('post',[
-    //   'post' => $post
-    // ]);
 });
+
+Route::get('categories/{category:slug}', function(Category $category){
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
+});
+
