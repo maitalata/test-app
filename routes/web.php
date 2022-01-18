@@ -20,7 +20,8 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::with('category', 'author')->get()
+        'posts' => Post::with('category', 'author')->get(),
+        'categories' => Category::all()
     ]);
 });
 
