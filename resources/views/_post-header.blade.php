@@ -14,19 +14,26 @@
         <!--  Category -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl">
             <x-dropdown>
-                <a href="/"
-            class="block text-left px-3 text-sm leading-6 hover:bg-blue-500 focus:bg-blue-500 hover:text-white">
-            All
-            </a>
+                <x-slot name="trigger">
+                    <button  class="py-2 pl-3 pr-9 text-sm font-semibold inline-flex">
+                        {{ isset($currentCategory)?$currentCategory->name : 'Categories' }}
 
-        @foreach ($categories as $category)
-            <a href="/categories/{{$category->slug}}"
-            class="block text-left px-3 text-sm leading-6
-             hover:bg-blue-500 focus:bg-blue-500 hover:text-white
-              {{ isset($currentCategory) && $currentCategory->id == $category->id ? 'bg-blue-500 text-white': '' }}">
-            {{$category->name}}
-            </a>
-        @endforeach
+                        <x-icon name="down-arrow" class="absolute pointer-events-none" style="right: 12px;" />
+                    </button>
+                </x-slot>
+
+                <x-dropdown-item href="/" >
+                    All
+                </x-dropdown-item>
+
+                @foreach ($categories as $category)
+
+                <x-dropdown-item href="/categories/{{ $category->slug }}"
+                    :active="isset($currentCategiry) && $currentCategiry->is($category)" >
+                    {{ ucwords($category->name) }}
+                </x-dropdown-item>
+
+                @endforeach
             </x-dropdown>
         </div>
 
